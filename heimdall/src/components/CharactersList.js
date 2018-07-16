@@ -13,12 +13,16 @@ const CharactersList = ({ characters }) => (
         </header>
 
         {characters.map(character => (
-          <Character key={character.id} character={character} />
+          <Character key={character.id} {...character} />
         ))}
         <PageNavigation />
       </Fragment>}
   </section>
 )
+
+CharactersList.defaultProps = {
+  characters: []
+}
 
 CharactersList.propTypes = {
   characters: PropTypes.arrayOf(PropTypes.object)
