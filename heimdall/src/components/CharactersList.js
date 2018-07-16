@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import PageNavigation from './PageNavigation'
 import Character from './Character'
 
-const CharactersList = ({ characters }) => (
+const CharactersList = ({ characters, handleClickNextPage, handleClickPrevPage, actualPage, totalPages }) => (
   <section className='characters-list'>
     {!characters.length
       ? <p>It is not in this universe...</p>
@@ -15,7 +15,11 @@ const CharactersList = ({ characters }) => (
         {characters.map(character => (
           <Character key={character.id} {...character} />
         ))}
-        <PageNavigation />
+        <PageNavigation
+          handleClickNextPage={handleClickNextPage}
+          handleClickPrevPage={handleClickPrevPage}
+          actualPage={actualPage}
+          totalPages={totalPages} />
       </Fragment>}
   </section>
 )

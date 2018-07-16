@@ -8,26 +8,61 @@ class App extends Component {
     super(props)
     this.state = {
       charactersResult: [],
-      isLoading: false
+      isLoading: false,
+      actualPage: 1,
+      totalPages: 0,
+      search: '',
     }
   }
 
   handleSearch = e => {
     const value = e.target.value
-    const enterKeyCode = 13
-    if (e.keyCode === enterKeyCode) {
+    const enterKeyCode = e.keyCode === 13
+    if (enterKeyCode && value) {
       this.setCharactersFromApiResult(value)
+      e.target.value = ''
+    }
+    if (enterKeyCode && !value) {
+      console.log('Empty Field')
     }
   }
-  setCharactersFromApiResult = async search => {
-    this.setState({isLoading: true})
-    const response = await api.getCaracters(search)
 
+  setCharactersFromApiResult = async search => {
     this.setState({
-      charactersResult: response.data.data.results,
-      isLoading: false,
-      hasSearch: true
+      isLoading: true,
+      search
     })
+    const response = await api.getCaracters(search)(this.state.actualPage)
+    this.setData(response.data.data)
+  }
+
+  setData = data => {
+    setTimeout(() => this.setState({
+      charactersResult: data.results,
+      isLoading: false,
+      hasSearch: true,
+      totalPages: Math.ceil(data.total / 6),
+    }), 1500)
+  }
+
+  handleClickNextPage = async () => {
+    const { actualPage, totalPages, search } = this.state
+    if (actualPage + 1 <= totalPages) {
+      await this.setState({
+        actualPage: actualPage + 1
+      })
+      this.setCharactersFromApiResult(search)
+    }
+  }
+
+  handleClickPrevPage = async () => {
+    const { actualPage, search } = this.state
+    if (actualPage - 1 >= 1) {
+      await this.setState ({
+        actualPage: actualPage - 1
+      })
+      this.setCharactersFromApiResult(search)
+    }
   }
 
   render() {
@@ -37,6 +72,10 @@ class App extends Component {
         characters={this.state.charactersResult}
         isLoading={this.state.isLoading}
         hasSearch={this.state.hasSearch}
+        handleClickNextPage={this.handleClickNextPage}
+        handleClickPrevPage={this.handleClickPrevPage}
+        actualPage={this.state.actualPage}
+        totalPages={this.state.totalPages}
       />
     );
   }
