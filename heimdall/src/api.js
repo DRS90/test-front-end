@@ -10,13 +10,13 @@ const api = axios.create({
 
 const actualPage = 0
 
-export const getCaracters = caracters => {
+export const getCaracters = async caracterName => {
   const pageLimit = 10
   const limit = `limit=${pageLimit}`
   const offset = `offset=${actualPage * pageLimit}`
   const apikey = `apikey=${publicKey}`
-  const nameStartsWith = `nameStartsWith=${caracters}`
-  
-  api.get(`characters?${nameStartsWith}&${limit}&${offset}&${apikey}`)
-    .then(response => console.log(response))
+  const nameStartsWith = `nameStartsWith=${caracterName}`
+
+  const response = await api.get(`characters?${nameStartsWith}&${limit}&${offset}&${apikey}`)
+  return response
 }

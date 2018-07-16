@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import * as api from './api'
 
-api.getCaracters('spider-man')
+import AppContent from './components/AppContent'
+
+
 
 const character = {
   id: '1009610',
@@ -15,56 +17,36 @@ const character = {
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      charactersResult: []
+    }
+  }
+
+  handleSearch = e => {
+    const value = e.target.value
+    console.log(value)
+    const enterKeyCode = 13
+    if (e.keyCode === enterKeyCode) {
+      console.log('enter')
+      this.setCharactersFromApiResult(value)
+    }
+  }
+  setCharactersFromApiResult = async search => {
+    const response = await api.getCaracters(search)
+    this.setState({
+      charactersResult: response.data.data.results
+    })
+  }
+
   render() {
     return (
-      <div className="app">
-        <header>
-          <img src='#' alt='Logo, stylized Heimdall yellow eyes' />
-          <label htmlFor='character-search'>Search</label>
-          <input type='search' id='character-search' />
-        </header>
-        <main>
-        <section className='characters-list'>
-        <header role='banner'>
-          <h1>Characters List</h1>
-        </header>
-
-          <article className='character'
-            style={{ width: '304px', height: '360px', border: '2px solid' }}
-          >
-            <img src={character.thumbnail} alt={character.name + ' thumbnail'}
-              style={{ maxWidth: '120px', maxHeight: '120px' }}
-            />
-            <div>
-              <h2>{character.name}</h2>
-              <p>{character.description}</p>
-            </div>
-            <nav>
-              <ul style={{listStyle: 'none'}}>
-                <li>
-                  <a href={character.urls.detail} target='_blank' title='Go to marvel.com for more details'>Details</a>
-                </li>
-                <li>
-                  <a href={character.urls.wiki} target='_blank' title='Go to wiki page'>Wiki page</a>
-                </li>
-              </ul>
-            </nav>
-          </article>
-
-            <footer role='navigation'>
-              <button>prev</button>
-              page 0
-              <button>next</button>
-            </footer>
-        </section>
-        </main>
-          <footer 
-          style={{position: 'fixed', bottom:'0px'}}>
-            <a href="http://marvel.com\">
-              Data provided by Marvel. © 2018 MARVEL
-            </a>
-          </footer>
-      </div>
+      <AppContent
+        character={character}
+        handleSearch={this.handleSearch}
+        result={this.state.charactersResult}
+      />
     );
   }
 }
