@@ -1,23 +1,26 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Header from './Header'
-import Character from './Character'
-import PageNavigation from './PageNavigation'
+import CharactersList from './CharactersList'
 import Footer from './Footer'
 
-const AppContent = ({ result, handleSearch }) => (
+const AppContent = ({ characters, handleSearch, isLoading, hasSearch }) => (
   <div className="app">
-    <Header handleSearch={handleSearch}/>
+    <Header handleSearch={handleSearch} />
     <main>
-      <section className='characters-list'>
-        <header role='banner'>
-          <h1>Characters List</h1>
-        </header>
-        {result.map(item => <Character character={item} />)}
-        <PageNavigation />
-      </section>
+      {isLoading
+        ? <span role='alertdialog' aria-busy='true'>Loading...</span>
+        : hasSearch
+          ? <CharactersList characters={characters}/>
+          : ''
+      }
     </main>
     <Footer />
   </div>
 )
+
+AppContent.propTypes = {
+  hasSearch: PropTypes.bool
+}
 
 export default AppContent

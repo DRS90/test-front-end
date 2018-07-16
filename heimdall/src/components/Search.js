@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 
 const Search = ({ handleSearch }) => (
   <Fragment>
@@ -6,5 +7,9 @@ const Search = ({ handleSearch }) => (
     <input type='search' id='character-search' onKeyUp={ handleSearch }/>
   </Fragment>
 )
+
+Search.propTypes = {
+  handleSearch: PropTypes.func.isRequired
+}
 
 export default Search

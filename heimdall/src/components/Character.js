@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import CharacterLinks from './CharacterLinks'
 
 const Character = ({ character }) => (
@@ -14,5 +15,13 @@ const Character = ({ character }) => (
     <CharacterLinks urls={character.urls} />
   </article>
 )
+
+Character.propTypes = {
+  character: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    thumbnail: PropTypes.object.isRequired,
+    urls: PropTypes.array.isRequired
+  }).isRequired
+}
 
 export default Character
