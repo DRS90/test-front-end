@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as api from './api'
+import * as api from './utils/api'
 
 import AppContent from './components/AppContent'
 
@@ -9,17 +9,24 @@ class App extends Component {
     this.state = {
       charactersResult: [],
       isLoading: false,
-      actualPage: 1,
-      totalPages: 0,
+      activePage: 1,
+      total: 0,
       search: '',
+      hasSearch: false,
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    const hasSearch = this.state.hasSearch !== nextState.hasSearch
+    const isLoading = this.state.isLoading !== nextState.isLoading
+    return (hasSearch || isLoading)
   }
 
   handleSearch = e => {
     const value = e.target.value
     const enterKeyCode = e.keyCode === 13
     if (enterKeyCode && value) {
-      this.setCharactersFromApiResult(value)
+      value !== this.state.search && this.setCharactersFromApiResult(value)
       e.target.value = ''
     }
     if (enterKeyCode && !value) {
@@ -27,55 +34,53 @@ class App extends Component {
     }
   }
 
-  setCharactersFromApiResult = async search => {
+  setCharactersFromApiResult = async (search = this.state.search) => {
     this.setState({
       isLoading: true,
       search
     })
-    const response = await api.getCaracters(search)(this.state.actualPage)
+    const response = await api.getCaracters(search, this.state.activePage)
     this.setData(response.data.data)
   }
 
-  setData = data => {
-    setTimeout(() => this.setState({
-      charactersResult: data.results,
-      isLoading: false,
-      hasSearch: true,
-      totalPages: Math.ceil(data.total / 6),
-    }), 1500)
-  }
+  setData = data => this.setState({
+    charactersResult: data.results,
+    isLoading: false,
+    hasSearch: true,
+    total: Math.ceil(data.total / 6),
+  })
 
-  handleClickNextPage = async () => {
-    const { actualPage, totalPages, search } = this.state
-    if (actualPage + 1 <= totalPages) {
+  handlePagination = async page => {
+    if (page !== this.state.activePage) {
       await this.setState({
-        actualPage: actualPage + 1
+        activePage: page
       })
-      this.setCharactersFromApiResult(search)
+      this.setCharactersFromApiResult()
     }
   }
 
-  handleClickPrevPage = async () => {
-    const { actualPage, search } = this.state
-    if (actualPage - 1 >= 1) {
-      await this.setState ({
-        actualPage: actualPage - 1
-      })
-      this.setCharactersFromApiResult(search)
-    }
+  handleClickHome = _ => {
+    this.setState({
+      charactersResult: [],
+      isLoading: false,
+      activePage: 1,
+      total: 0,
+      search: '',
+      hasSearch: false,
+    })
   }
 
   render() {
     return (
       <AppContent
+        handleLogoClick={this.handleClickHome}
         handleSearch={this.handleSearch}
         characters={this.state.charactersResult}
         isLoading={this.state.isLoading}
         hasSearch={this.state.hasSearch}
-        handleClickNextPage={this.handleClickNextPage}
-        handleClickPrevPage={this.handleClickPrevPage}
-        actualPage={this.state.actualPage}
-        totalPages={this.state.totalPages}
+        handlePagination={this.handlePagination}
+        activePage={this.state.activePage}
+        total={this.state.total}
       />
     );
   }

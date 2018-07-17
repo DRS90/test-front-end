@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import PageNavigation from './PageNavigation'
+import PageNavigation from '../pagination/PageNavigation'
 import Character from './Character'
 
-const CharactersList = ({ characters, handleClickNextPage, handleClickPrevPage, actualPage, totalPages }) => (
+const CharactersList = ({ characters, handlePagination, activePage, total }) => (
   <section className='characters-list'>
     {!characters.length
       ? <p>It is not in this universe...</p>
@@ -16,10 +16,10 @@ const CharactersList = ({ characters, handleClickNextPage, handleClickPrevPage, 
           <Character key={character.id} {...character} />
         ))}
         <PageNavigation
-          handleClickNextPage={handleClickNextPage}
-          handleClickPrevPage={handleClickPrevPage}
-          actualPage={actualPage}
-          totalPages={totalPages} />
+          total={total}
+          activePage={activePage}
+          handlePagination={handlePagination}
+        />
       </Fragment>}
   </section>
 )

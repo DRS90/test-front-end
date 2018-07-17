@@ -7,13 +7,16 @@ const api = axios.create({
   timeout: 10000,
 })
 
-export const getCaracters = caracterName => async actualPage => {
+export const getCaracters = async (caracterName, activePage = 1) => {
   const pageLimit = 6
   const limit = `limit=${pageLimit}`
-  const offset = `offset=${(actualPage - 1) * pageLimit}`
+  const offset = `offset=${(activePage - 1) * pageLimit}`
   const apikey = `apikey=${publicKey}`
   const nameStartsWith = `nameStartsWith=${caracterName}`
-
-  const response = await api.get(`characters?${nameStartsWith}&${limit}&${offset}&${apikey}`)
-  return response
+  try{
+    const response = await api.get(`characters?${nameStartsWith}&${limit}&${offset}&${apikey}`)
+    return response
+  } catch (error){
+    console.log('ERROR: ',error)
+  }
 }

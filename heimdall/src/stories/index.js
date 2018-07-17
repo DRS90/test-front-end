@@ -13,3 +13,15 @@ import Header from './Header.story'
 import Footer from './Footer.story'
 import PageNavigation from './PageNavigation.story'
 import CharacterList from './CharacterList.story'
+
+export const mockCharacter = {
+  name: 'Heimdall Eye',
+  thumbnail: {
+    path: '/static/media/heimdall-eye-logo.32c8e2a9',
+    extension: 'svg'
+  },
+  urls: [
+    { type: 'detail', url: '#' },
+    { type: 'wiki', url: '#' },
+  ]
+}

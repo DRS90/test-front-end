@@ -2,5 +2,5 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Footer from '../components/Footer';
 
-storiesOf('Footer', module)
-  .add('Component', () => <Footer />)
+storiesOf('<Footer>', module)
+  .add('without props', () => <Footer />)

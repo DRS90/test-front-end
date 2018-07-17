@@ -1,8 +1,16 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import PageNavigation from '../components/PageNavigation';
+import { action } from '@storybook/addon-actions';
+import PageNavigation from '../components/pagination/PageNavigation';
 
-storiesOf('Page Navigation', module)
-  .add('First Page', () => <PageNavigation actualPage={1} totalPages={2}/>)
-  .add('Last Page', () => <PageNavigation actualPage={2} totalPages={2}/>)
-  .add('Only 1 page', () => <PageNavigation actualPage={1} totalPages={1}/>)
+storiesOf('<PageNavigation>', module)
+  .add('without props', () => <PageNavigation />)
+  .add('with total and activePage', () => (
+    <PageNavigation total={20} activePage={10} />
+  ))
+  .add('with callback', () => (
+    <PageNavigation total={20} activePage={10}
+    handlePagination={page => {
+        action(`go to page: ${page}`)
+      }} />
+  ))
