@@ -6,6 +6,10 @@ First you will need to install the packages
 yarn install
 npm install
 ```
+Then you will need to go to the application directory
+```
+cd test-front-end/heimdall
+```
 * To start application use (one or the other)
 ```
 yarn start
