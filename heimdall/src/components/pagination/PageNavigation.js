@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import pagination from '../../utils/pagination';
 import Page from './Page';
 
-import Container from '../styles/Container'
-
 const PageNavigation = ({ total, activePage, handlePagination }) => (
   total !== 1 &&
   <footer role='navigation'>

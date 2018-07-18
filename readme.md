@@ -1,3 +1,27 @@
+## Instructions
+This project was made using [Create React App](https://github.com/facebook/create-react-app)
+
+First you will need to install the packages
+```
+yarn install
+npm install
+```
+* To start application use (one or the other)
+```
+yarn start
+npm start start
+```
+* To start tests use (one or the other)
+```
+yarn test
+npm test
+```
+* To see documentation use (one or the other)
+```
+yarn storybook
+npm storybook
+```
+
 ![BoaConsulta](https://www.boaconsulta.com/assets/icons/logo-preferencial/logo-preferencial-r-g-b@2x.png)
 
 ### About [BoaConsulta.com](https://www.boaconsulta.com)
