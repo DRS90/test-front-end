@@ -3,16 +3,18 @@ import PropTypes from 'prop-types'
 import pagination from '../../utils/pagination';
 import Page from './Page';
 
+import Container from '../styles/Container'
+
 const PageNavigation = ({ total, activePage, handlePagination }) => (
   total !== 1 &&
   <footer role='navigation'>
     <nav>
-      <ul>
+      <ul style={{ display: 'flex', listStyle: 'none', padding: '0px' }}>
         {pagination({ total, activePage })
           .map((page, index) => (
-            <li key={index}>
-              <Page page={page} onClick={handlePagination} />
-            </li>
+              <li key={index}>
+                <Page page={page} onClick={handlePagination} activePage={activePage} />
+              </li>
           ))}
       </ul>
     </nav>

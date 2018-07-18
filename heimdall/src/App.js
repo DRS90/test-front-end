@@ -47,7 +47,7 @@ class App extends Component {
     charactersResult: data.results,
     isLoading: false,
     hasSearch: true,
-    total: Math.ceil(data.total / 6),
+    total: Math.ceil(data.total / 8),
   })
 
   handlePagination = async page => {

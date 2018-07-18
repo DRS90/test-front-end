@@ -39,11 +39,9 @@ const centerRule = ({ total, activePage }) => (
 const handleErrors = ({ total, activePage }) => {
   if (!isNumber(total)) {
     throw new TypeError('total should be a number')
-    return true
   }
   if (!isNumber(activePage)) {
     throw new TypeError('activePage should be a number')
-    return true
   }
   return false
 }

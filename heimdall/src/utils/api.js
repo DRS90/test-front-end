@@ -8,7 +8,7 @@ const api = axios.create({
 })
 
 export const getCaracters = async (caracterName, activePage = 1) => {
-  const pageLimit = 6
+  const pageLimit = 8
   const limit = `limit=${pageLimit}`
   const offset = `offset=${(activePage - 1) * pageLimit}`
   const apikey = `apikey=${publicKey}`
